@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Digital Fatigue & Burnout Check</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h2>Digital Fatigue & Burnout Check</h2>
+    <p style="text-align:center;">Answer honestly. It takes less than 1 minute.</p>
+
+    <form method="POST">
+
+        <label>Daily Screen Time</label>
+        <select name="screen_time" required>
+            <option value="4">Less than 4 hours</option>
+            <option value="6">4–6 hours</option>
+            <option value="8">6–8 hours</option>
+            <option value="10">More than 8 hours</option>
+        </select>
+
+        <label>How often do you switch apps?</label>
+        <select name="app_switches" required>
+            <option value="20">Rarely</option>
+            <option value="40">Sometimes</option>
+            <option value="70">Very Often</option>
+        </select>
+
+        <label>Do you use screens late at night?</label>
+        <select name="late_night" required>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select>
+
+        <label>Your typing speed</label>
+        <select name="typing_speed" required>
+            <option value="25">Slow</option>
+            <option value="40">Average</option>
+            <option value="60">Fast</option>
+        </select>
+
+        <label>Breaks during screen work</label>
+        <select name="breaks" required>
+            <option value="1">Very Few</option>
+            <option value="3">Some</option>
+            <option value="5">Enough</option>
+        </select>
+
+        <button type="submit">Check My Digital Health</button>
+    </form>
+
+    {% if fatigue_score %}
+    <div class="result">
+        <h3>Your Digital Fatigue Level</h3>
+
+        <p class="{% if fatigue_level=='Low' %}low{% elif fatigue_level=='Medium' %}medium{% else %}high{% endif %}">
+            {{ fatigue_message }}
+        </p>
+
+        <h4>Burnout Risk: 
+            <span class="{% if burnout_result=='High Risk' %}high{% else %}low{% endif %}">
+                {{ burnout_result }}
+            </span>
+        </h4>
+
+        <h4>What you can do:</h4>
+        <ul>
+            {% for tip in recommendations %}
+            <li>{{ tip }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
